@@ -1,0 +1,67 @@
+﻿<div id="messagesMain" data-bind="click: function() { return true; }, clickBubble: false" class="clear-fix">
+    <div class="usersPanel">
+        <ul data-bind="foreach: ChatContexts">
+            <li data-bind="attr: { id: 'context-' + Id }">
+                <div class="contextInfoWrap clear-fix">
+                    <a data-bind="attr: { href: '#/Messaging/' + OtherUser.UserName }">
+                        <img class="messagesUserAvatar" data-bind="attr: { src: OtherUser.AvatarURL }" />
+                        <div class="messagesUserInfoContainer">
+                            <div class="panelUserDisplayName" data-bind="html: OtherUser.DisplayName"></div>
+                            <span class="lastActivity"><span data-bind="date: LastInteraction"></span></span>
+                        </div>
+                        <span class="newMessagesCount" data-bind="visible: NewMessages().length > 0, text: NewMessages().length"></span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="chatPanel">
+        <div class="chatMain">
+            <div class="messagesListContainer">
+                <!-- ko with: CurrentContext() -->
+                <div data-bind="if: IsLoadingMessageHistory">
+                    <img id="loadingHistoryImage" src="~/Images/Common/loading-blue.gif" />
+                </div>
+                <ul id="messagesGroupsByDaysList" data-bind="foreach: MessageGroupsByDays">
+                    <li class="messageGroupByDay">
+                        <div class="messageGroupDate">
+                            <span data-bind="date: TimeStamp"></span>
+                        </div>
+                        <ul class="messagesGroupsList" data-bind="foreach: MessageGroups">
+                            <li class="clear-fix">
+                                <div class="messageMainContainer">
+                                    <div class="messagesUserAvatar">
+                                        <img data-bind="attr: { src: IsOwn ? $root.CurrentUser.AvatarURL : $parents[1].OtherUser.AvatarURL }" />
+                                    </div>
+                                    <div class="messageMain">
+                                        <div class="messageUserInfo">
+                                            <a class="messagesUsername" data-bind="text: IsOwn ? $root.CurrentUser.DisplayName : $parents[1].OtherUser.DisplayName, attr: { href: IsOwn ? '/Users/' + $root.CurrentUser.UserName : /Users/ +  $parents[1].OtherUser.UserName }"></a>
+                                            <span class="messageTimeStamp" data-bind="time: TimeStamp"></span>
+                                        </div>
+                                        <ul class="messagesList" data-bind="foreach: { data: Messages, afterRender: $parents[1].scrollToBottom }">
+                                            <li>
+                                                <span data-bind="text: Content"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /ko -->
+            </div>
+            <div class="messageInputAreaContainer">
+                <!-- ko with: CurrentContext() -->
+
+                <textarea class="form-control" placeholder="Enter message..." data-bind="enterkey: { callback: sendMessage, value: $root.SendOnEnter }, value: NewMessage"></textarea>
+                <input class="btn btn-success" type="button" id="sendMessageButton" data-bind="fadeVisible: !$root.SendOnEnter(), click: sendMessage" value="Send" />
+                <label for="sendOnEnterCheckbox">Send on enter</label>
+                <input id="sendOnEnterCheckbox" type="checkbox" data-bind="checked: $root.SendOnEnter" />
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <span class="buttonToggleMessagingVisibility" data-bind="click: toggleVisibility"></span>
+</div>
+

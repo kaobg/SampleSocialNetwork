@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IEnumerable<SampleSocialNetwork.Models.ApplicationUser>
+
+<ul>
+    @foreach (var user in Model)
+    {
+        <li><a href="~/Users/@user.UserName">@user.UserName</a></li>
+    }
+</ul>
+

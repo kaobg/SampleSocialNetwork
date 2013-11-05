@@ -1,0 +1,27 @@
+﻿@model SampleSocialNetwork.Models.ApplicationUser
+@{
+    ViewBag.Title = "View Profile";
+}
+ 
+
+
+<div id="profileInfoHolder">
+    <h2>@Model.UserName</h2>
+    @Html.Hidden("userId", Model.Id, new { id = "userId" })
+    
+    <span data-bind="if: RelationName() == 'Neutral'">
+        <input type="button" class="btn btn-success" value="Add friend" />
+    </span>
+    <span data-bind="if: RelationName() == 'Neutral'">
+        <input type="button" class="btn btn-danger" value="Block this person" />
+    </span>
+</div>
+
+@if (Request.IsAuthenticated && Model.Id != User.Identity.GetUserId())
+{
+    <a class="btn btn-info" href="#/Messaging/@Model.UserName">Message</a>
+}
+
+@section Scripts {
+    <script src="~/Scripts/view-profile.js"></script>
+}
