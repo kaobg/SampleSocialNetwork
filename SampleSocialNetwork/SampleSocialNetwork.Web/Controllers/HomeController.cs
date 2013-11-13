@@ -12,7 +12,7 @@ namespace SampleSocialNetwork.Web.Controllers
         public ActionResult Index()
         {
             ApplicationDbContext context = new ApplicationDbContext();
-            var users = context.Users.Take(10);
+            var users = context.Users;
             return View(users);
         }
 
