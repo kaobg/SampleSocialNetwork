@@ -7,14 +7,6 @@
 
 <div id="profileInfoHolder">
     <h2>@Model.UserName</h2>
-    @Html.Hidden("userId", Model.Id, new { id = "userId" })
-    
-    <span data-bind="if: RelationName() == 'Neutral'">
-        <input type="button" class="btn btn-success" value="Add friend" />
-    </span>
-    <span data-bind="if: RelationName() == 'Neutral'">
-        <input type="button" class="btn btn-danger" value="Block this person" />
-    </span>
 </div>
 
 @if (Request.IsAuthenticated && Model.Id != User.Identity.GetUserId())
